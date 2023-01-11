@@ -271,7 +271,12 @@ function Board() {
   );
 
   return (
+    <div>
+       {/* <div><span className="px-5 bg-red-500 w-[10.5rem]">Player 1 :</span></div>
+       <div><span className="px-5  bg-blue-500 w-40">Player 2 :</span></div> */}
+  
     <div className="flex flex-row gap-2">
+     
       <div className="basis-4/6 border relative min-h-max">
         {showSnakeModal && eatBySnake}
         {showLadderModal && useLadder}
@@ -319,6 +324,7 @@ function Board() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
