@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import p1Img from "../Assets/p1.png"
 import p2Img from "../Assets/p2.jpg"
+import board from "../Assets/board.JPG"
 function Board() {
   let layers = [];
   let tempStore = [];
@@ -47,36 +48,40 @@ function Board() {
   
   let setFirstNumber = [
     {
-      startNum: 91,
-      endNum: 100,
+      startNum: 100,
+      endNum: 91,
     },
     {
       startNum: 81,
       endNum: 90,
     },
     {
-      startNum: 71,
-      endNum: 80,
+      startNum: 80,
+      endNum: 71,
     },
     {
-      startNum: 51,
-      endNum: 60,
+      startNum: 61,
+      endNum: 70,
+    },
+    {
+      startNum: 60,
+      endNum: 51,
     },
     {
       startNum: 41,
       endNum: 50,
     },
     {
-      startNum: 31,
-      endNum: 40,
+      startNum: 40,
+      endNum: 31,
     },
     {
       startNum: 21,
       endNum: 30,
     },
     {
-      startNum: 11,
-      endNum: 20,
+      startNum: 20,
+      endNum: 11,
     },
     {
       startNum: 1,
@@ -134,37 +139,71 @@ function Board() {
         makePosition: 25
     }
   ]
+  let ctr = 0;
+  console.log('setFirstNumber',setFirstNumber)
 
-  setFirstNumber?.map(async (data) => {
-    console.log("data", data);
-    let ctr = 0;
-    for (ctr = data.startNum; ctr <= data.endNum; ctr++) {
-      tempStore.push(ctr);
-      if (ctr === data.endNum) {
-        layers.push(tempStore);
-        tempStore = [];
+  setFirstNumber?.map(async (data, index) => {
+    console.log("index",index)
+    let indexVal = index+1
+    if(indexVal%2==0){
+      console.log("even")
+      for (ctr = data.startNum; ctr <= data.endNum; ctr++) {
+        tempStore.push(ctr);
+        if (ctr === data.endNum) {
+          layers.push(tempStore);
+          tempStore = [];
+        }
       }
+    }else{
+      console.log("odd")
+      for (ctr = data.startNum; ctr >= data.endNum; ctr--) {
+        tempStore.push(ctr);
+        if (ctr === data.endNum) {
+          layers.push(tempStore);
+          tempStore = [];
+        }
+      }
+ 
     }
+   
   });
   console.log("tempStore", tempStore);
   console.log("layer1", layers);
 
   const showBoardFormat = () => {
     return (
-        <div className="grid grid-cols-10 gap-4">
+        <div className="grid grid-cols-10 z-20 absolute top-0 min-w-full min-h-full">
         {layers.map((data) => {
             {return data.map((item,index) => {
-              return <div className="text-red-600 border h-20 flex flex-col" key={index}>{item} <span className="flex flex-row">{player1 === item&&<img className="h-16" src={p1Img} alt="p1Img"/>} {player2 === item&&<img src={p2Img} className="h-16" alt="p2Img"/>}</span></div>;
+              return <div className="text-black border border-red-700 flex flex-col justify-center items-center " key={index}>
+               <span className="flex flex-row">
+                {player1 === item&&<span className="p-2 rounded-full bg-red-500 absolute shadow-2xl"></span>} 
+                {player2 === item&&<span className="p-2 rounded-full bg-blue-500 absolute shadow-2xl"></span>}</span></div>;
             })} 
        
         })}
        </div>
     );
   };
-  return <div>
-    <span className="text-2xl">{diceRolling ? "Rolling...." : diceNumber}</span>
+  return <div className="flex flex-row gap-2">
+    <div className="basis-4/6 border relative min-h-max">
+    <img src={board} alt="board" className="z-10 min-w-full min-h-full" />
     {showBoardFormat()}
-  <button onClick={Playerturn}>ROLL</button>
+    </div>
+    <div className="basis-2/6 border p-2 rounded-md bg-[#FCF4AB] min-h-max relative">
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-center">
+          <img src="https://www.gamexso.com/wp-content/uploads/2022/06/ecf012d2f6594cee1ff79eb930a31e3b.png" alt="logo" />
+        </div>
+        <div>
+         <span className="flex text-5xl justify-center h-52 items-center">{diceRolling ? <img src="https://web2.ph.utexas.edu/~coker2/index.files/04dice.gif" alt="diceGIF" />: diceNumber}</span>
+        </div>
+        <div className="flex absolute bottom-0 w-full">
+         <button onClick={Playerturn} className="bg-[#279415] text-white p-2 rounded-full">ROLL</button>
+        </div>
+      </div>
+    </div>
+  
   </div>;
 }
 
