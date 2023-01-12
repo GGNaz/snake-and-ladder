@@ -12,6 +12,8 @@ function Board() {
   const [diceRolling, setDiceRolling] = useState(false);
   const [showSnakeModal, setShowSnakeModal] = useState(false);
   const [showLadderModal, setShowLadderModal] = useState(false);
+  const [copyCurrentPosition, setCopyCurrentPosition] = useState(1)
+  const [copyConsequencePostition, setCopyConsequencePosition] = useState(1)
   // let playerTurn = 1
   const max = 6;
   const min = 1;
@@ -60,10 +62,88 @@ function Board() {
       makePosition: 84,
     },
     {
+      position: 36,
+      isLadder: true,
+      isSnake: false,
+      makePosition: 44,
+    },
+    {
       position: 46,
       isLadder: false,
       isSnake: true,
       makePosition: 25,
+    },
+    {
+      position: 49,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 11,
+    },
+    {
+      position: 51,
+      isLadder: true,
+      isSnake: false,
+      makePosition: 67,
+    },
+    {
+      position: 62,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 19,
+    },
+    {
+      position: 64,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 60,
+    },
+    {
+      position: 74,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 53,
+    },
+    {
+      position: 78,
+      isLadder: true,
+      isSnake: false,
+      makePosition: 98,
+    },
+    {
+      position: 89,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 68,
+    },
+    {
+      position: 71,
+      isLadder: true,
+      isSnake: false,
+      makePosition: 91,
+    },
+    {
+      position: 92,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 88,
+    },
+    {
+      position: 87,
+      isLadder: true,
+      isSnake: false,
+      makePosition: 94,
+    },
+    {
+      position: 95,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 75,
+    },
+    {
+      position: 99,
+      isLadder: false,
+      isSnake: true,
+      makePosition: 80,
     },
   ];
 
@@ -85,18 +165,23 @@ function Board() {
       if (diceVal.toFixed(0) * 1 === 0) {
         setDiceNumber(1);
         setPlayerTurn(playerTurn === 1 ? 2 : 1);
-        getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,diceVal.toFixed(0) * 1)
-        let checkConsequence = consequence.findIndex((data) => data.position === getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,diceVal.toFixed(0) * 1))
+        getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,1)
+        let checkConsequence = consequence.findIndex((data) => data.position === getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,1))
         console.log("checkConsequence",checkConsequence)
         if(checkConsequence >=0){
           consequence[checkConsequence].isLadder ? setShowLadderModal(true) : setShowSnakeModal(true)
-          playerTurn === 1
-          ? setPlayer1(consequence[checkConsequence].makePosition)
-          : setPlayer2(consequence[checkConsequence].makePosition);
+          setCopyConsequencePosition(consequence[checkConsequence].makePosition);
+          if(playerTurn === 1){
+            setPlayer1(consequence[checkConsequence].makePosition)
+            setCopyCurrentPosition(copyPlayer1Postion === 1 ? copyPlayer1Postion : copyPlayer1Postion+ 1);
+          }else{
+            setPlayer2(consequence[checkConsequence].makePosition)
+            setCopyCurrentPosition(copyPlayer2Postion === 1 ? copyPlayer2Postion : copyPlayer2Postion+ 1);
+          }
         }else{
           playerTurn === 1
-          ? setPlayer1(copyPlayer1Postion + diceVal.toFixed(0) * 1)
-          : setPlayer2(copyPlayer2Postion + diceVal.toFixed(0) * 1);
+          ? setPlayer1(copyPlayer1Postion + 1)
+          : setPlayer2(copyPlayer2Postion + 1);
         }
       } else {
         setDiceNumber(diceVal.toFixed(0) * 1);
@@ -105,9 +190,16 @@ function Board() {
         console.log("checkConsequence",checkConsequence)
         if(checkConsequence >=0){
           consequence[checkConsequence].isLadder ? setShowLadderModal(true) : setShowSnakeModal(true)
-          playerTurn === 1
-          ? setPlayer1(consequence[checkConsequence].makePosition)
-          : setPlayer2(consequence[checkConsequence].makePosition);
+          setCopyConsequencePosition(consequence[checkConsequence].makePosition);
+          // setCopyCurrentPosition(copyPlayer1Postion);
+          if(playerTurn === 1){
+            setPlayer1(consequence[checkConsequence].makePosition)
+            setCopyCurrentPosition(copyPlayer1Postion === 1 ? copyPlayer1Postion : copyPlayer1Postion+ diceVal.toFixed(0) * 1);
+          }else{
+            setPlayer2(consequence[checkConsequence].makePosition)
+            setCopyCurrentPosition(copyPlayer2Postion === 1 ? copyPlayer2Postion : copyPlayer2Postion+ diceVal.toFixed(0) * 1);
+          }
+        
         }else{
           playerTurn === 1
           ? setPlayer1(copyPlayer1Postion + diceVal.toFixed(0) * 1)
@@ -210,17 +302,17 @@ function Board() {
             return data.map((item, index) => {
               return (
                 <div
-                  className="text-black border border-red-700 flex flex-col justify-center items-center "
+                  className="text-black flex flex-col justify-center items-center "
                   key={index}
                 >
-                  <span className="flex flex-row">
+                  <div className="flex flex-row">
                     {player1 === item && (
-                      <span className="p-2 rounded-full bg-red-500 absolute shadow-2xl"></span>
+                      <div className="p-2 rounded-full bg-red-500 absolute shadow-2xl z-10"></div>
                     )}
                     {player2 === item && (
-                      <span className="p-2 rounded-full bg-blue-500 absolute shadow-2xl"></span>
+                      <div className="p-2 rounded-full bg-blue-500 absolute shadow-2xl z-20 -ml-3"></div>
                     )}
-                  </span>
+                  </div>
                 </div>
               );
             });
@@ -237,7 +329,8 @@ function Board() {
           src="https://media.tenor.com/4VA8sM09C7YAAAAM/swallowed-the-mighty-ones.gif"
           alt="gifsnake"
         />
-        <div>Nagpakaen kahit di masarap!</div>
+        <div>You've been eaten by a snake!</div>
+        <div>Position: {copyCurrentPosition} {`->`} {copyConsequencePostition} </div>
         <div className="flex justify-end ">
           <button
             className="bg-red-700 text-white px-2 rounded-md"
@@ -258,6 +351,7 @@ function Board() {
           alt="gifladder"
         />
         <div>You found a Ladder!</div>
+        <div>Position: {copyCurrentPosition} {`->`} {copyConsequencePostition} </div>
         <div className="flex justify-end ">
           <button
             className="bg-red-700 text-white px-2 rounded-md"
@@ -277,13 +371,13 @@ function Board() {
   
     <div className="flex flex-row gap-2">
      
-      <div className="basis-4/6 border relative min-h-max">
+      <div className="basis-6/6 md:basis-4/6 border relative min-h-max">
         {showSnakeModal && eatBySnake}
         {showLadderModal && useLadder}
         <img src={board} alt="board" className="z-10 min-w-full min-h-full" />
         {showBoardFormat()}
       </div>
-      <div className="basis-2/6 border p-2 rounded-md bg-[#FCF4AB] min-h-max w-full ">
+      <div className="basis-6/6 md:basis-2/6 border p-2 rounded-md bg-[#FCF4AB] min-h-max w-full ">
         <div className="flex flex-col gap-2 min-h-full relative">
           <div className="flex justify-center">
             <img
@@ -302,8 +396,8 @@ function Board() {
             </div>{" "}
             <div>turn!</div>
           </div>
-          <div>
-            <span className="flex text-5xl justify-center h-52 items-center">
+          {/* <div> */}
+            <div className="flex text-5xl justify-center h-[50vh] items-center">
               {diceRolling ? (
                 <img
                   src="https://web2.ph.utexas.edu/~coker2/index.files/04dice.gif"
@@ -312,14 +406,14 @@ function Board() {
               ) : (
                 diceNumber
               )}
-            </span>
-          </div>
+            </div>
+          {/* </div> */}
           <div className="flex absolute bottom-0 w-full">
             <button
               onClick={Playerturn}
               className="bg-[#279415] text-white p-2 rounded-full  w-full"
             >
-              ROLL
+              ROLL THE DICE
             </button>
           </div>
         </div>
