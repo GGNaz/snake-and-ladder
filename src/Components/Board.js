@@ -464,11 +464,11 @@ function Board() {
                 //   alt="diceGIF"
                 // />
                 <Player
-  src='https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json'
-  className="player"
-  loop
-  autoplay
-/>
+                  src='https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json'
+                  className="player"
+                  loop
+                  autoplay
+                />
               ) : (
                 diceNumber
               )}
