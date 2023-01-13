@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import p1Img from "../Assets/p1.png";
 import p2Img from "../Assets/p2.jpg";
 import board from "../Assets/board.JPG";
+import { motion } from "framer-motion";
+import { Player } from '@lottiefiles/react-lottie-player';
 function Board() {
   let layers = [];
   let tempStore = [];
@@ -12,12 +14,12 @@ function Board() {
   const [diceRolling, setDiceRolling] = useState(false);
   const [showSnakeModal, setShowSnakeModal] = useState(false);
   const [showLadderModal, setShowLadderModal] = useState(false);
-  const [copyCurrentPosition, setCopyCurrentPosition] = useState(1)
-  const [copyConsequencePostition, setCopyConsequencePosition] = useState(1)
+  const [copyCurrentPosition, setCopyCurrentPosition] = useState(1);
+  const [copyConsequencePostition, setCopyConsequencePosition] = useState(1);
   // let playerTurn = 1
   const max = 6;
   const min = 1;
-  
+
   let consequence = [
     {
       position: 2,
@@ -147,12 +149,17 @@ function Board() {
     },
   ];
 
-  function getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,diceVal) {
+  function getCurrentPlayerPosition(
+    playerTurn,
+    copyPlayer1Postion,
+    copyPlayer2Postion,
+    diceVal
+  ) {
     // playerTurn === 1 ? copyPlayer1Postion + diceVal.toFixed(0) * 1  : copyPlayer2Postion + diceVal.toFixed(0) * 1
-    if(playerTurn === 1){
-      return copyPlayer1Postion + diceVal.toFixed(0) * 1 
-    }else{
-      return copyPlayer2Postion + diceVal.toFixed(0) * 1
+    if (playerTurn === 1) {
+      return copyPlayer1Postion + diceVal.toFixed(0) * 1;
+    } else {
+      return copyPlayer2Postion + diceVal.toFixed(0) * 1;
     }
   }
 
@@ -165,47 +172,92 @@ function Board() {
       if (diceVal.toFixed(0) * 1 === 0) {
         setDiceNumber(1);
         setPlayerTurn(playerTurn === 1 ? 2 : 1);
-        getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,1)
-        let checkConsequence = consequence.findIndex((data) => data.position === getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,1))
-        console.log("checkConsequence",checkConsequence)
-        if(checkConsequence >=0){
-          consequence[checkConsequence].isLadder ? setShowLadderModal(true) : setShowSnakeModal(true)
-          setCopyConsequencePosition(consequence[checkConsequence].makePosition);
-          if(playerTurn === 1){
-            setPlayer1(consequence[checkConsequence].makePosition)
-            setCopyCurrentPosition(copyPlayer1Postion === 1 ? copyPlayer1Postion : copyPlayer1Postion+ 1);
-          }else{
-            setPlayer2(consequence[checkConsequence].makePosition)
-            setCopyCurrentPosition(copyPlayer2Postion === 1 ? copyPlayer2Postion : copyPlayer2Postion+ 1);
+        getCurrentPlayerPosition(
+          playerTurn,
+          copyPlayer1Postion,
+          copyPlayer2Postion,
+          1
+        );
+        let checkConsequence = consequence.findIndex(
+          (data) =>
+            data.position ===
+            getCurrentPlayerPosition(
+              playerTurn,
+              copyPlayer1Postion,
+              copyPlayer2Postion,
+              1
+            )
+        );
+        console.log("checkConsequence", checkConsequence);
+        if (checkConsequence >= 0) {
+          consequence[checkConsequence].isLadder
+            ? setShowLadderModal(true)
+            : setShowSnakeModal(true);
+          setCopyConsequencePosition(
+            consequence[checkConsequence].makePosition
+          );
+          if (playerTurn === 1) {
+            setPlayer1(consequence[checkConsequence].makePosition);
+            setCopyCurrentPosition(
+              copyPlayer1Postion === 1
+                ? copyPlayer1Postion
+                : copyPlayer1Postion + 1
+            );
+          } else {
+            setPlayer2(consequence[checkConsequence].makePosition);
+            setCopyCurrentPosition(
+              copyPlayer2Postion === 1
+                ? copyPlayer2Postion
+                : copyPlayer2Postion + 1
+            );
           }
-        }else{
+        } else {
           playerTurn === 1
-          ? setPlayer1(copyPlayer1Postion + 1)
-          : setPlayer2(copyPlayer2Postion + 1);
+            ? setPlayer1(copyPlayer1Postion + 1)
+            : setPlayer2(copyPlayer2Postion + 1);
         }
       } else {
         setDiceNumber(diceVal.toFixed(0) * 1);
         setPlayerTurn(playerTurn === 1 ? 2 : 1);
-        let checkConsequence = consequence.findIndex((data) => data.position === getCurrentPlayerPosition(playerTurn,copyPlayer1Postion,copyPlayer2Postion,diceVal.toFixed(0) * 1))
-        console.log("checkConsequence",checkConsequence)
-        if(checkConsequence >=0){
-          consequence[checkConsequence].isLadder ? setShowLadderModal(true) : setShowSnakeModal(true)
-          setCopyConsequencePosition(consequence[checkConsequence].makePosition);
+        let checkConsequence = consequence.findIndex(
+          (data) =>
+            data.position ===
+            getCurrentPlayerPosition(
+              playerTurn,
+              copyPlayer1Postion,
+              copyPlayer2Postion,
+              diceVal.toFixed(0) * 1
+            )
+        );
+        console.log("checkConsequence", checkConsequence);
+        if (checkConsequence >= 0) {
+          consequence[checkConsequence].isLadder
+            ? setShowLadderModal(true)
+            : setShowSnakeModal(true);
+          setCopyConsequencePosition(
+            consequence[checkConsequence].makePosition
+          );
           // setCopyCurrentPosition(copyPlayer1Postion);
-          if(playerTurn === 1){
-            setPlayer1(consequence[checkConsequence].makePosition)
-            setCopyCurrentPosition(copyPlayer1Postion === 1 ? copyPlayer1Postion : copyPlayer1Postion+ diceVal.toFixed(0) * 1);
-          }else{
-            setPlayer2(consequence[checkConsequence].makePosition)
-            setCopyCurrentPosition(copyPlayer2Postion === 1 ? copyPlayer2Postion : copyPlayer2Postion+ diceVal.toFixed(0) * 1);
+          if (playerTurn === 1) {
+            setPlayer1(consequence[checkConsequence].makePosition);
+            setCopyCurrentPosition(
+              copyPlayer1Postion === 1
+                ? copyPlayer1Postion
+                : copyPlayer1Postion + diceVal.toFixed(0) * 1
+            );
+          } else {
+            setPlayer2(consequence[checkConsequence].makePosition);
+            setCopyCurrentPosition(
+              copyPlayer2Postion === 1
+                ? copyPlayer2Postion
+                : copyPlayer2Postion + diceVal.toFixed(0) * 1
+            );
           }
-        
-        }else{
+        } else {
           playerTurn === 1
-          ? setPlayer1(copyPlayer1Postion + diceVal.toFixed(0) * 1)
-          : setPlayer2(copyPlayer2Postion + diceVal.toFixed(0) * 1);
+            ? setPlayer1(copyPlayer1Postion + diceVal.toFixed(0) * 1)
+            : setPlayer2(copyPlayer2Postion + diceVal.toFixed(0) * 1);
         }
-       
       }
       setDiceRolling(false);
 
@@ -214,6 +266,8 @@ function Board() {
   }
 
   function Playerturn() {
+    setShowLadderModal(false);
+    setShowSnakeModal(false);
     if (playerTurn === 1) {
       return rollTheDice(1);
     } else {
@@ -326,11 +380,14 @@ function Board() {
     <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
       <div className="p-2 bg-white flex flex-col rounded-md">
         <img
-          src="https://media.tenor.com/4VA8sM09C7YAAAAM/swallowed-the-mighty-ones.gif"
+          // src="https://media.tenor.com/4VA8sM09C7YAAAAM/swallowed-the-mighty-ones.gif"
+          src="https://media.tenor.com/3yu8Wxqy6qsAAAAC/wwe-santino-marella.gif"
           alt="gifsnake"
         />
         <div>You've been eaten by a snake!</div>
-        <div>Position: {copyCurrentPosition} {`->`} {copyConsequencePostition} </div>
+        <div>
+          Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+        </div>
         <div className="flex justify-end ">
           <button
             className="bg-red-700 text-white px-2 rounded-md"
@@ -348,10 +405,13 @@ function Board() {
       <div className="p-2 bg-white flex flex-col rounded-md">
         <img
           src="https://media.tenor.com/TlFCLiZ9FIEAAAAM/otis-climb.gif"
+          // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
           alt="gifladder"
         />
         <div>You found a Ladder!</div>
-        <div>Position: {copyCurrentPosition} {`->`} {copyConsequencePostition} </div>
+        <div>
+          Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+        </div>
         <div className="flex justify-end ">
           <button
             className="bg-red-700 text-white px-2 rounded-md"
@@ -366,59 +426,77 @@ function Board() {
 
   return (
     <div>
-       {/* <div><span className="px-5 bg-red-500 w-[10.5rem]">Player 1 :</span></div>
+      {/* <div><span className="px-5 bg-red-500 w-[10.5rem]">Player 1 :</span></div>
        <div><span className="px-5  bg-blue-500 w-40">Player 2 :</span></div> */}
-  
-    <div className="flex flex-row gap-2">
-     
-      <div className="basis-6/6 md:basis-4/6 border relative min-h-max">
-        {showSnakeModal && eatBySnake}
-        {showLadderModal && useLadder}
-        <img src={board} alt="board" className="z-10 min-w-full min-h-full" />
-        {showBoardFormat()}
-      </div>
-      <div className="basis-6/6 md:basis-2/6 border p-2 rounded-md bg-[#FCF4AB] min-h-max w-full ">
-        <div className="flex flex-col gap-2 min-h-full relative">
-          <div className="flex justify-center">
-            <img
-              src="https://www.gamexso.com/wp-content/uploads/2022/06/ecf012d2f6594cee1ff79eb930a31e3b.png"
-              alt="logo"
-            />
-          </div>
-          <div className="text-2xl flex flex-row justify-center gap-2  p-2">
-            <div>Player</div>{" "}
-            <div
-              className={`rounded-full w-5 text-white flex justify-center items-center bg-${
-                playerTurn === 1 ? "red" : "blue"
-              }-500 shadow-2xl`}
-            >
-              {playerTurn}
-            </div>{" "}
-            <div>turn!</div>
-          </div>
-          {/* <div> */}
-            <div className="flex text-5xl justify-center h-[50vh] items-center">
+
+      <div className="flex flex-row gap-2">
+        <div className="sm:basis-6/6 md:basis-4/6 border relative min-h-max">
+          {showSnakeModal && eatBySnake}
+          {showLadderModal && useLadder}
+          <img src={board} alt="board" className="z-10 min-w-full min-h-full" />
+          {showBoardFormat()}
+        </div>
+        <div className="sm:basis-6/6 md:basis-2/6 border p-2 rounded-md bg-[#FCF4AB] min-h-max w-full ">
+          <div className="flex flex-col gap-2 min-h-full relative">
+            <div className="flex justify-center">
+              <img
+                src="https://www.gamexso.com/wp-content/uploads/2022/06/ecf012d2f6594cee1ff79eb930a31e3b.png"
+                alt="logo"
+              />
+            </div>
+            <div className="text-2xl flex flex-row justify-center gap-2  p-2">
+              <div>Player</div>{" "}
+              <div
+                className={`rounded-full w-5 text-white flex justify-center items-center bg-${
+                  playerTurn === 1 ? "red" : "blue"
+                }-500 shadow-2xl`}
+              >
+                {playerTurn}
+              </div>{" "}
+              <div>turn!</div>
+            </div>
+            {/* <div> */}
+            <div className="flex text-5xl w-full justify-center -mt-5 h-[50vh] items-center">
               {diceRolling ? (
-                <img
-                  src="https://web2.ph.utexas.edu/~coker2/index.files/04dice.gif"
-                  alt="diceGIF"
-                />
+                // <img
+                //   // src="https://web2.ph.utexas.edu/~coker2/index.files/04dice.gif"
+                //   src="https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json"
+                //   alt="diceGIF"
+                // />
+                <Player
+  src='https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json'
+  className="player"
+  loop
+  autoplay
+/>
               ) : (
                 diceNumber
               )}
             </div>
-          {/* </div> */}
-          <div className="flex absolute bottom-0 w-full">
-            <button
-              onClick={Playerturn}
-              className="bg-[#279415] text-white p-2 rounded-full  w-full"
-            >
-              ROLL THE DICE
-            </button>
+            {/* </div> */}
+            <div className="flex absolute bottom-1 w-full justify-center">
+              <motion.div
+                // className="box"
+                whileHover={!diceRolling ? { scale: 1.2 } : 0}
+                whileTap={!diceRolling ? { scale: 0.9 } : 0}
+                transition={
+                  !diceRolling
+                    ? { type: "spring", stiffness: 400, damping: 17 }
+                    : 0
+                }
+                className="bg-[#279415] text-white p-2 rounded-full  w-[80%]"
+              >
+                <button
+                  onClick={() => !diceRolling && Playerturn()}
+                  className="flex justify-center w-full"
+                >
+                  {diceRolling ? "ROLLING..." : "ROLL THE DICE"}
+                </button>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
