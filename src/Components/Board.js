@@ -20,6 +20,27 @@ function Board() {
   const max = 6;
   const min = 1;
 
+  const dropIn = {
+    hidden: {
+      y: "-100vh",
+      opacity: 0,
+    },
+    visible: {
+      y: "0",
+      opacity: 1,
+      transition: {
+        duration: 0.1,
+        type: "spring",
+        damping: 25,
+        stiffness: 500,
+      },
+    },
+    exit: {
+      y: "100vh",
+      opacity: 0,
+    },
+  };
+
   let consequence = [
     {
       position: 2,
@@ -377,13 +398,28 @@ function Board() {
   };
 
   const eatBySnake = (
+    <motion.div
+    onClick={(e) => e.stopPropagation()}  
+    className="modal orange-gradient absolute w-full h-full z-50"
+    variants={dropIn}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+  >
     <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-md">
-        <img
+      <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
+        {/* <img
           // src="https://media.tenor.com/4VA8sM09C7YAAAAM/swallowed-the-mighty-ones.gif"
           src="https://media.tenor.com/3yu8Wxqy6qsAAAAC/wwe-santino-marella.gif"
           alt="gifsnake"
-        />
+          className="h-[70%]"
+        /> */}
+          <Player
+                src='https://assets7.lottiefiles.com/packages/lf20_pcn1ppfb.json'
+                className="player"
+                loop
+                autoplay
+              />
         <div>You've been eaten by a snake!</div>
         <div>
           Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
@@ -398,16 +434,33 @@ function Board() {
         </div>
       </div>
     </div>
+    </motion.div>
   );
 
+
   const useLadder = (
+    <motion.div
+    onClick={(e) => e.stopPropagation()}  
+    className="modal orange-gradient absolute w-full h-full z-50"
+    variants={dropIn}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+  >
     <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-md">
-        <img
+      <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
+        {/* <img
           src="https://media.tenor.com/TlFCLiZ9FIEAAAAM/otis-climb.gif"
           // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
           alt="gifladder"
-        />
+          className="h-[70%]"
+        /> */}
+         <Player
+                src='https://assets7.lottiefiles.com/packages/lf20_pcn1ppfb.json'
+                className="player"
+                loop
+                autoplay
+              />
         <div>You found a Ladder!</div>
         <div>
           Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
@@ -422,6 +475,7 @@ function Board() {
         </div>
       </div>
     </div>
+    </motion.div>
   );
 
   return (
@@ -463,6 +517,7 @@ function Board() {
                 //   src="https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json"
                 //   alt="diceGIF"
                 // />
+               
                 <Player
                   src='https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json'
                   className="player"
