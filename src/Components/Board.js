@@ -16,6 +16,7 @@ function Board() {
   const [showLadderModal, setShowLadderModal] = useState(false);
   const [copyCurrentPosition, setCopyCurrentPosition] = useState(1);
   const [copyConsequencePostition, setCopyConsequencePosition] = useState(1);
+  const [playerWinnerDetails, setPlayerWinnnerDetails] = useState(null);
   // let playerTurn = 1
   const max = 6;
   const min = 1;
@@ -184,6 +185,14 @@ function Board() {
     }
   }
 
+  function checkIfPlayerWin(){
+    if(player1===100){
+      return setPlayerWinnnerDetails(1)
+    }else if(player2===100){
+      return setPlayerWinnnerDetails(2)
+    }
+  }
+
   function rollTheDice(playerTurn) {
     let copyPlayer1Postion = player1;
     let copyPlayer2Postion = player2;
@@ -237,6 +246,7 @@ function Board() {
             ? setPlayer1(copyPlayer1Postion + 1)
             : setPlayer2(copyPlayer2Postion + 1);
         }
+        checkIfPlayerWin();
       } else {
         setDiceNumber(diceVal.toFixed(0) * 1);
         setPlayerTurn(playerTurn === 1 ? 2 : 1);
@@ -279,6 +289,7 @@ function Board() {
             ? setPlayer1(copyPlayer1Postion + diceVal.toFixed(0) * 1)
             : setPlayer2(copyPlayer2Postion + diceVal.toFixed(0) * 1);
         }
+        checkIfPlayerWin();
       }
       setDiceRolling(false);
 
@@ -424,9 +435,9 @@ function Board() {
         <div>
           Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
         </div>
-        <div className="flex justify-end ">
+        <div className="flex justify-end mt-4">
           <button
-            className="bg-red-700 text-white px-2 rounded-md"
+            className="bg-red-700 text-white w-full py-2 rounded-full"
             onClick={() => setShowSnakeModal(false)}
           >
             Close
@@ -465,13 +476,60 @@ function Board() {
         <div>
           Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
         </div>
-        <div className="flex justify-end ">
+        <div className="flex justify-end mt-4">
           <button
-            className="bg-red-700 text-white px-2 rounded-md"
+            className="bg-red-700 text-white w-full py-2 rounded-full"
             onClick={() => setShowLadderModal(false)}
           >
             Close
           </button>
+        </div>
+      </div>
+    </div>
+    </motion.div>
+  );
+
+  const resetTheGame = () => {
+    setPlayerWinnnerDetails(null)
+    setPlayer1(0)
+    setPlayer2(0)
+    setPlayerTurn(1)
+    setDiceNumber(null)
+  }
+
+  const winnerPopupModal = (
+    <motion.div
+    onClick={(e) => e.stopPropagation()}  
+    className="modal orange-gradient absolute w-full h-full z-50"
+    variants={dropIn}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+  >
+    <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
+      <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
+        {/* <img
+          src="https://media.tenor.com/TlFCLiZ9FIEAAAAM/otis-climb.gif"
+          // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
+          alt="gifladder"
+          className="h-[70%]"
+        /> */}
+         <Player
+                src='https://assets7.lottiefiles.com/packages/lf20_xldzoar8.json'
+                className="player"
+                loop
+                autoplay
+              />
+        <div className="flex justify-center items-center text-lg">{`Player ${playerWinnerDetails} Win!`}</div>
+       
+        <div className="flex justify-center items-center mt-4">
+          <button
+            className="bg-green-700 text-white w-full py-2 rounded-full"
+            onClick={() => resetTheGame()}
+          >
+            Play again
+          </button>
+         
         </div>
       </div>
     </div>
@@ -487,6 +545,7 @@ function Board() {
         <div className="sm:basis-6/6 md:basis-4/6 border relative min-h-max">
           {showSnakeModal && eatBySnake}
           {showLadderModal && useLadder}
+          {playerWinnerDetails&&winnerPopupModal}
           <img src={board} alt="board" className="z-10 min-w-full min-h-full" />
           {showBoardFormat()}
         </div>
@@ -525,7 +584,7 @@ function Board() {
                   autoplay
                 />
               ) : (
-                diceNumber
+                diceNumber ?? ""
               )}
             </div>
             {/* </div> */}
