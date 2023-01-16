@@ -418,22 +418,25 @@ function Board() {
     exit="exit"
   >
     <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
-        {/* <img
-          // src="https://media.tenor.com/4VA8sM09C7YAAAAM/swallowed-the-mighty-ones.gif"
-          src="https://media.tenor.com/3yu8Wxqy6qsAAAAC/wwe-santino-marella.gif"
+      <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
+      <div className="flex justify-center items-center">
+        <img
+        src="https://www.pngmart.com/files/19/Vector-Snake-PNG-File.png"
           alt="gifsnake"
-          className="h-[70%]"
-        /> */}
-          <Player
-                src='https://assets7.lottiefiles.com/packages/lf20_pcn1ppfb.json'
+          className="h-[50%] w-[50%]"
+        />
+      </div>
+          {/* <Player
+                src='https://www.clipartmax.com/png/middle/19-197925_snake-clipart-vector-png-parts-of-a-snake.png'
                 className="player"
                 loop
                 autoplay
-              />
-        <div>You've been eaten by a snake!</div>
-        <div>
-          Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+              /> */}
+         <div className="flex flex-col justify-center items-center">
+          <div>You've been eaten by a snake!</div>
+          <div>
+            Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+          </div>
         </div>
         <div className="flex justify-end mt-4">
           <button
@@ -459,22 +462,27 @@ function Board() {
     exit="exit"
   >
     <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
-        {/* <img
-          src="https://media.tenor.com/TlFCLiZ9FIEAAAAM/otis-climb.gif"
+      <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
+        <div className="flex justify-center items-center">
+        <img
+        src="https://www.pngmart.com/files/16/Vector-Step-Ladder-PNG-Photos.png"
           // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
           alt="gifladder"
-          className="h-[70%]"
-        /> */}
-         <Player
+          className="h-[50%] w-[50%] "
+        />
+        </div>
+       
+         {/* <Player
                 src='https://assets7.lottiefiles.com/packages/lf20_pcn1ppfb.json'
                 className="player"
                 loop
                 autoplay
-              />
+              /> */}
+        <div className="flex flex-col justify-center items-center">
         <div>You found a Ladder!</div>
         <div>
           Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+        </div>
         </div>
         <div className="flex justify-end mt-4">
           <button
