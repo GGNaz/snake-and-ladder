@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import p1Img from "../Assets/p1.png";
-import p2Img from "../Assets/p2.jpg";
+import React, { useEffect, useState } from "react";
+import snake from "../Assets/snake.png";
+import ladder from "../Assets/ladder.png";
 import board from "../Assets/board.JPG";
 import { motion } from "framer-motion";
 import { Player } from '@lottiefiles/react-lottie-player';
@@ -186,12 +186,16 @@ function Board() {
   }
 
   function checkIfPlayerWin(){
-    if(player1===100){
+    if(player1>=100){
       return setPlayerWinnnerDetails(1)
-    }else if(player2===100){
+    }else if(player2>=100){
       return setPlayerWinnnerDetails(2)
     }
   }
+
+  useEffect(() => {
+    checkIfPlayerWin();
+  },[player1,player2])
 
   function rollTheDice(playerTurn) {
     let copyPlayer1Postion = player1;
@@ -246,7 +250,7 @@ function Board() {
             ? setPlayer1(copyPlayer1Postion + 1)
             : setPlayer2(copyPlayer2Postion + 1);
         }
-        checkIfPlayerWin();
+   
       } else {
         setDiceNumber(diceVal.toFixed(0) * 1);
         setPlayerTurn(playerTurn === 1 ? 2 : 1);
@@ -289,7 +293,7 @@ function Board() {
             ? setPlayer1(copyPlayer1Postion + diceVal.toFixed(0) * 1)
             : setPlayer2(copyPlayer2Postion + diceVal.toFixed(0) * 1);
         }
-        checkIfPlayerWin();
+        // checkIfPlayerWin();
       }
       setDiceRolling(false);
 
@@ -421,7 +425,7 @@ function Board() {
       <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
       <div className="flex justify-center items-center">
         <img
-        src="https://www.pngmart.com/files/19/Vector-Snake-PNG-File.png"
+        src={snake}
           alt="gifsnake"
           className="h-[50%] w-[50%]"
         />
@@ -465,7 +469,7 @@ function Board() {
       <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
         <div className="flex justify-center items-center">
         <img
-        src="https://www.pngmart.com/files/16/Vector-Step-Ladder-PNG-Photos.png"
+        src={ladder}
           // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
           alt="gifladder"
           className="h-[50%] w-[50%] "
@@ -577,7 +581,7 @@ function Board() {
               <div>turn!</div>
             </div>
             {/* <div> */}
-            <div className="flex text-5xl w-full justify-center -mt-5 h-[50vh] items-center">
+            <div className="flex text-5xl w-full justify-center -mt-7 h-[50vh] items-center">
               {diceRolling ? (
                 // <img
                 //   // src="https://web2.ph.utexas.edu/~coker2/index.files/04dice.gif"
@@ -587,7 +591,7 @@ function Board() {
                
                 <Player
                   src='https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json'
-                  className="player"
+                  className="player h-[40vh]"
                   loop
                   autoplay
                 />
@@ -610,6 +614,7 @@ function Board() {
               >
                 <button
                   onClick={() => !diceRolling && Playerturn()}
+                  disabled={playerWinnerDetails ? true : false}
                   className="flex justify-center w-full"
                 >
                   {diceRolling ? "ROLLING..." : "ROLL THE DICE"}
