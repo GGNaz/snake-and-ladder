@@ -5,6 +5,7 @@ import board from "../Assets/board.JPG";
 import { motion } from "framer-motion";
 import { Player } from '@lottiefiles/react-lottie-player';
 function Board() {
+
   let layers = [];
   let tempStore = [];
   const [player1, setPlayer1] = useState(0);
