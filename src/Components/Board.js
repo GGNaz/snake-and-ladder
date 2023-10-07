@@ -3,9 +3,8 @@ import snake from "../Assets/snake.png";
 import ladder from "../Assets/ladder.png";
 import board from "../Assets/board.JPG";
 import { motion } from "framer-motion";
-import { Player } from '@lottiefiles/react-lottie-player';
+import { Player } from "@lottiefiles/react-lottie-player";
 function Board() {
-
   let layers = [];
   let tempStore = [];
   const [player1, setPlayer1] = useState(0);
@@ -186,17 +185,17 @@ function Board() {
     }
   }
 
-  function checkIfPlayerWin(){
-    if(player1>=100){
-      return setPlayerWinnnerDetails(1)
-    }else if(player2>=100){
-      return setPlayerWinnnerDetails(2)
+  function checkIfPlayerWin() {
+    if (player1 >= 100) {
+      return setPlayerWinnnerDetails(1);
+    } else if (player2 >= 100) {
+      return setPlayerWinnnerDetails(2);
     }
   }
 
   useEffect(() => {
     checkIfPlayerWin();
-  },[player1,player2])
+  }, [player1, player2]);
 
   function rollTheDice(playerTurn) {
     let copyPlayer1Postion = player1;
@@ -223,7 +222,7 @@ function Board() {
               1
             )
         );
-        console.log("checkConsequence", checkConsequence);
+
         if (checkConsequence >= 0) {
           consequence[checkConsequence].isLadder
             ? setShowLadderModal(true)
@@ -251,7 +250,6 @@ function Board() {
             ? setPlayer1(copyPlayer1Postion + 1)
             : setPlayer2(copyPlayer2Postion + 1);
         }
-   
       } else {
         setDiceNumber(diceVal.toFixed(0) * 1);
         setPlayerTurn(playerTurn === 1 ? 2 : 1);
@@ -265,7 +263,7 @@ function Board() {
               diceVal.toFixed(0) * 1
             )
         );
-        console.log("checkConsequence", checkConsequence);
+
         if (checkConsequence >= 0) {
           consequence[checkConsequence].isLadder
             ? setShowLadderModal(true)
@@ -297,8 +295,6 @@ function Board() {
         // checkIfPlayerWin();
       }
       setDiceRolling(false);
-
-      console.log("diceVal", diceVal.toFixed(0) * 1);
     }, 2000);
   }
 
@@ -311,7 +307,6 @@ function Board() {
       return rollTheDice(2);
     }
   }
-  console.log("playerTurn", playerTurn);
 
   let setFirstNumber = [
     {
@@ -357,13 +352,10 @@ function Board() {
   ];
 
   let ctr = 0;
-  console.log("setFirstNumber", setFirstNumber);
 
   setFirstNumber?.map(async (data, index) => {
-    console.log("index", index);
     let indexVal = index + 1;
     if (indexVal % 2 == 0) {
-      console.log("even");
       for (ctr = data.startNum; ctr <= data.endNum; ctr++) {
         tempStore.push(ctr);
         if (ctr === data.endNum) {
@@ -372,7 +364,6 @@ function Board() {
         }
       }
     } else {
-      console.log("odd");
       for (ctr = data.startNum; ctr >= data.endNum; ctr--) {
         tempStore.push(ctr);
         if (ctr === data.endNum) {
@@ -382,175 +373,169 @@ function Board() {
       }
     }
   });
-  console.log("tempStore", tempStore);
-  console.log("layer1", layers);
 
   const showBoardFormat = () => {
     return (
       <div className="grid grid-cols-10 z-20 absolute top-0 min-w-full min-h-full">
-        {layers.map((data) => {
-          {
-            return data.map((item, index) => {
-              return (
-                <div
-                  className="text-black flex flex-col justify-center items-center "
-                  key={index}
-                >
-                  <div className="flex flex-row">
-                    {player1 === item && (
-                      <div className="p-2 rounded-full bg-red-500 absolute shadow-2xl z-10"></div>
-                    )}
-                    {player2 === item && (
-                      <div className="p-2 rounded-full bg-blue-500 absolute shadow-2xl z-20 -ml-3"></div>
-                    )}
-                  </div>
+        {layers.map((data) =>
+          data.map((item, index) => {
+            return (
+              <div
+                className="text-black flex flex-col justify-center items-center "
+                key={index}
+              >
+                <div className="flex flex-row">
+                  {player1 === item && (
+                    <div className="p-1  bg-white rounded-full text-red-500 font-extrabold absolute shadow-2xl z-10 -mt-2">
+                      P1
+                    </div>
+                  )}
+                  {player2 === item && (
+                    <div className="p-1 rounded-full bg-white text-blue-500 font-extrabold absolute shadow-2xl z-20 -ml-7 -mt-2">
+                      P2
+                    </div>
+                  )}
                 </div>
-              );
-            });
-          }
-        })}
+              </div>
+            );
+          })
+        )}
       </div>
     );
   };
 
   const eatBySnake = (
     <motion.div
-    onClick={(e) => e.stopPropagation()}  
-    className="modal orange-gradient absolute w-full h-full z-50"
-    variants={dropIn}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-  >
-    <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
-      <div className="flex justify-center items-center">
-        <img
-        src={snake}
-          alt="gifsnake"
-          className="h-[50%] w-[50%]"
-        />
-      </div>
+      onClick={(e) => e.stopPropagation()}
+      className="modal orange-gradient absolute w-full h-full z-50"
+      variants={dropIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
+        <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
+          <div className="flex justify-center items-center">
+            <img src={snake} alt="gifsnake" className="h-[50%] w-[50%]" />
+          </div>
           {/* <Player
                 src='https://www.clipartmax.com/png/middle/19-197925_snake-clipart-vector-png-parts-of-a-snake.png'
                 className="player"
                 loop
                 autoplay
               /> */}
-         <div className="flex flex-col justify-center items-center">
-          <div>You've been eaten by a snake!</div>
-          <div>
-            Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+          <div className="flex flex-col justify-center items-center">
+            <div>You've been eaten by a snake!</div>
+            <div>
+              Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+            </div>
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              className="bg-red-700 text-white w-full py-2 rounded-full"
+              onClick={() => setShowSnakeModal(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
-        <div className="flex justify-end mt-4">
-          <button
-            className="bg-red-700 text-white w-full py-2 rounded-full"
-            onClick={() => setShowSnakeModal(false)}
-          >
-            Close
-          </button>
-        </div>
       </div>
-    </div>
     </motion.div>
   );
 
-
   const useLadder = (
     <motion.div
-    onClick={(e) => e.stopPropagation()}  
-    className="modal orange-gradient absolute w-full h-full z-50"
-    variants={dropIn}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-  >
-    <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
-        <div className="flex justify-center items-center">
-        <img
-        src={ladder}
-          // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
-          alt="gifladder"
-          className="h-[50%] w-[50%] "
-        />
-        </div>
-       
-         {/* <Player
+      onClick={(e) => e.stopPropagation()}
+      className="modal orange-gradient absolute w-full h-full z-50"
+      variants={dropIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
+        <div className="p-2 bg-white flex flex-col rounded-xl w-[70%]">
+          <div className="flex justify-center items-center">
+            <img
+              src={ladder}
+              // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
+              alt="gifladder"
+              className="h-[50%] w-[50%] "
+            />
+          </div>
+
+          {/* <Player
                 src='https://assets7.lottiefiles.com/packages/lf20_pcn1ppfb.json'
                 className="player"
                 loop
                 autoplay
               /> */}
-        <div className="flex flex-col justify-center items-center">
-        <div>You found a Ladder!</div>
-        <div>
-          Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
-        </div>
-        </div>
-        <div className="flex justify-end mt-4">
-          <button
-            className="bg-red-700 text-white w-full py-2 rounded-full"
-            onClick={() => setShowLadderModal(false)}
-          >
-            Close
-          </button>
+          <div className="flex flex-col justify-center items-center">
+            <div>You found a Ladder!</div>
+            <div>
+              Position: {copyCurrentPosition} {`->`} {copyConsequencePostition}{" "}
+            </div>
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              className="bg-red-700 text-white w-full py-2 rounded-full"
+              onClick={() => setShowLadderModal(false)}
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </motion.div>
   );
 
   const resetTheGame = () => {
-    setPlayerWinnnerDetails(null)
-    setPlayer1(0)
-    setPlayer2(0)
-    setPlayerTurn(1)
-    setDiceNumber(null)
-  }
+    setPlayerWinnnerDetails(null);
+    setPlayer1(0);
+    setPlayer2(0);
+    setPlayerTurn(1);
+    setDiceNumber(null);
+  };
 
   const winnerPopupModal = (
     <motion.div
-    onClick={(e) => e.stopPropagation()}  
-    className="modal orange-gradient absolute w-full h-full z-50"
-    variants={dropIn}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-  >
-    <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
-      <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
-        {/* <img
+      onClick={(e) => e.stopPropagation()}
+      className="modal orange-gradient absolute w-full h-full z-50"
+      variants={dropIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div className="bg-black/20 absolute w-full h-full z-50 shadow-xl flex flex-row justify-center items-center">
+        <div className="p-2 bg-white flex flex-col rounded-md w-[70%]">
+          {/* <img
           src="https://media.tenor.com/TlFCLiZ9FIEAAAAM/otis-climb.gif"
           // src="https://cdn-icons-png.flaticon.com/512/4212/4212592.png"
           alt="gifladder"
           className="h-[70%]"
         /> */}
-         <Player
-                src='https://assets7.lottiefiles.com/packages/lf20_xldzoar8.json'
-                className="player"
-                loop
-                autoplay
-              />
-        <div className="flex justify-center items-center text-lg">{`Player ${playerWinnerDetails} Win!`}</div>
-       
-        <div className="flex justify-center items-center mt-4">
-          <button
-            className="bg-green-700 text-white w-full py-2 rounded-full"
-            onClick={() => resetTheGame()}
-          >
-            Play again
-          </button>
-         
+          <Player
+            src="https://assets7.lottiefiles.com/packages/lf20_xldzoar8.json"
+            className="player"
+            loop
+            autoplay
+          />
+          <div className="flex justify-center items-center text-lg">{`Player ${playerWinnerDetails} Win!`}</div>
+
+          <div className="flex justify-center items-center mt-4">
+            <button
+              className="bg-green-700 text-white w-full py-2 rounded-full"
+              onClick={() => resetTheGame()}
+            >
+              Play again
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </motion.div>
   );
 
   return (
-    <div>
+    <div className="p-20">
       {/* <div><span className="px-5 bg-red-500 w-[10.5rem]">Player 1 :</span></div>
        <div><span className="px-5  bg-blue-500 w-40">Player 2 :</span></div> */}
 
@@ -558,7 +543,7 @@ function Board() {
         <div className="sm:basis-6/6 md:basis-4/6 border relative min-h-max">
           {showSnakeModal && eatBySnake}
           {showLadderModal && useLadder}
-          {playerWinnerDetails&&winnerPopupModal}
+          {playerWinnerDetails && winnerPopupModal}
           <img src={board} alt="board" className="z-10 min-w-full min-h-full" />
           {showBoardFormat()}
         </div>
@@ -589,9 +574,9 @@ function Board() {
                 //   src="https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json"
                 //   alt="diceGIF"
                 // />
-               
+
                 <Player
-                  src='https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json'
+                  src="https://assets9.lottiefiles.com/packages/lf20_979bgwwu.json"
                   className="player h-[40vh]"
                   loop
                   autoplay
@@ -604,6 +589,7 @@ function Board() {
             <div className="flex absolute bottom-1 w-full justify-center">
               <motion.div
                 // className="box"
+                onClick={() => !diceRolling && Playerturn()}
                 whileHover={!diceRolling ? { scale: 1.2 } : 0}
                 whileTap={!diceRolling ? { scale: 0.9 } : 0}
                 transition={
@@ -614,7 +600,6 @@ function Board() {
                 className="bg-[#279415] text-white p-2 rounded-full  w-[80%]"
               >
                 <button
-                  onClick={() => !diceRolling && Playerturn()}
                   disabled={playerWinnerDetails ? true : false}
                   className="flex justify-center w-full"
                 >
